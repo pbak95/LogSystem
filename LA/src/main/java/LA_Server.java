@@ -26,7 +26,6 @@ public class LA_Server implements Runnable{
         try {
             serverSocket = new ServerSocket(port);
             entityManagerFactory = Persistence.createEntityManagerFactory("MyDatabase");
-    		entityManager = entityManagerFactory.createEntityManager();
         } catch (IOException e) {
             System.err.println("Error starting Log Agent.");
             System.exit(1);
@@ -43,7 +42,7 @@ public class LA_Server implements Runnable{
 	            try {
 	                Socket clientSocket = serverSocket.accept();
 	               // clientSocket.setSoTimeout(10*1000);
-	                LA_Service clientService = new LA_Service(clientSocket, this, entityManager);
+	                LA_Service clientService = new LA_Service(clientSocket, this, entityManagerFactory.createEntityManager());
 	                addClientService(clientService);
 	            } catch (IOException e) {
 	                System.err.println("Error accepting connection. "
